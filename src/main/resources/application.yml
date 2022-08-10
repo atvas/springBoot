@@ -1,5 +1,6 @@
 server:
   port: 80
+#  port: 3700
 
 
 spring:
@@ -8,6 +9,9 @@ spring:
     url: jdbc:mysql://${MYSQL_ADDRESS}/${MYSQL_DATABASE:springboot_demo}
     username: ${MYSQL_USERNAME}
     password: ${MySQL_PASSWORD}
+#    url: jdbc:mysql://sh-cynosdbmysql-grp-56tmz666.sql.tencentcdb.com:26228/springboot_demo
+#    username: root
+#    password: 1.19Mz19
   mvc:
     view:
       suffix: .html
@@ -15,3 +19,8 @@ spring:
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
+
+
+Login:
+  username: admin
+  password: admin
