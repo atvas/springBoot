@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邮件发送</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        .el-select .el-input {
+            width: 130px;
+        }
+
+        .input-with-select .el-input-group__prepend {
+            background-color: #fff;
+        }
+
+        .main {
+            width: 100%;
+            max-width: 700px;
+            margin: 200px auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="main">
+        <el-form :rules="rules" ref="ruleForm" :model="form" label-width="80px">
+            <el-form-item label="邮箱" prop="email">
+                <el-input v-model="form.email"></el-input>
+            </el-form-item>
+            <el-form-item label="邮件标题" prop="subject">
+                <el-input v-model="form.subject"></el-input>
+            </el-form-item>
+            <el-form-item label="邮件内容" prop="content">
+                <el-input type="textarea" v-model="form.content"></el-input>
+            </el-form-item>
+            <el-form-item label="发送密钥" prop="key">
+                <el-input v-model="form.key"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="submitForm('ruleForm')">立即发送</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+</div>
+<!-- 引入组件库 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://mat1.gtimg.com/www/asset/lib/jquery/jquery/jquery-1.11.1.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                form: {
+                    email: '',
+                    subject: '',
+                    content: '',
+                    key:''
+                },
+                rules: {
+                    email: [
+                        {required: true, message: '请输入活动名称', trigger: 'blur'}
+                    ],
+                    subject: [
+                        {required: true, message: '请输入邮件标题', trigger: 'blur'}
+                    ],
+                    content: [
+                        {required: true, message: '请输入邮件内容', trigger: 'blur'}
+                    ],
+                    key: [
+                        {required: true, message: '请输入密钥', trigger: 'blur'}
+                    ]
+                }
+            }
+        },
+        methods: {
+            onSubmit() {
+                const loading = this.$loading({
+                    lock: true,
+                    text: '发送中...',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                let formData = this.form
+                $.ajax("/api/sendmail", {
+                    method: "get",
+                    data: formData,
+                    success: (res) => {
+                        loading.close();
+                        if (res.code == 0) {
+                            this.$message({
+                                message: res.data,
+                                type: 'success'
+                            });
+                        } else {
+                            this.$message.error(res.errorMsg);
+                        }
+                    }
+                })
+            },
+
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.onSubmit()
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            }
+        },
+    })
+</script>
+
+</body>
+</html>

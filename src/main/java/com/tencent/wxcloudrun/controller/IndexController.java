@@ -19,4 +19,16 @@ public class IndexController {
     return "index";
   }
 
+  /**
+   * 发送邮件页面
+   * @return
+   */
+  @GetMapping("sendmail")
+  public String email(){
+    return "sendEmail";
+  }
+
+
+
+
 }
