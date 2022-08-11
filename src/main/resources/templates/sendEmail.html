@@ -32,7 +32,7 @@
                 <el-input v-model="form.subject"></el-input>
             </el-form-item>
             <el-form-item label="邮件内容" prop="content">
-                <el-input type="textarea" v-model="form.content"></el-input>
+                <el-input type="textarea" v-model="form.content" autosize></el-input>
             </el-form-item>
             <el-form-item label="发送密钥" prop="key">
                 <el-input v-model="form.key"></el-input>
@@ -83,6 +83,7 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
                 let formData = this.form
+                console.log(formData)
                 $.ajax("/api/sendmail", {
                     method: "get",
                     data: formData,

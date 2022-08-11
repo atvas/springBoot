@@ -36,6 +36,5 @@ public class SendEmailController {
                 return ApiResponse.error("邮件发送失败");
             }
         }
-
     }
 }
