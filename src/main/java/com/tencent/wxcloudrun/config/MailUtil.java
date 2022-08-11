@@ -20,7 +20,6 @@ import java.io.File;
  * 发送邮件工具类 MailUtil
  *
  * @author heshi
- * @date 2021/3/22 16:52
  */
 
 @Service

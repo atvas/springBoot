@@ -18,23 +18,24 @@ public class SendEmailController {
 
 
     @GetMapping("sendmail")
-    public ApiResponse sendmail(@RequestParam("email") String email, @RequestParam("subject") String subject, @RequestParam("content") String content,@RequestParam("key") String key) {
-        if (!key.equals(emailKey)){
+    public ApiResponse sendmail(@RequestParam("email") String email, @RequestParam("subject") String subject, @RequestParam("content") String content, @RequestParam("key") String key) {
+        if (!key.equals(emailKey)) {
             return ApiResponse.error("密钥错误");
+        } else {
+            int slug = 0;
+            try {
+                emailService.sendSimpleMail(email, subject, content);
+                slug = 0;
+            } catch (Exception e) {
+                slug = -1;
+                e.printStackTrace();
+            }
+            if (slug == 0) {
+                return ApiResponse.ok("邮件发送成功");
+            } else {
+                return ApiResponse.error("邮件发送失败");
+            }
         }
 
-        int slug = 0;
-        try {
-            emailService.sendSimpleMail(email, subject, content);
-            slug = 0;
-        } catch (Exception e) {
-            slug = -1;
-            e.printStackTrace();
-        }
-        if (slug == 0) {
-            return ApiResponse.ok("邮件发送成功");
-        } else {
-            return ApiResponse.error("邮件发送失败");
-        }
     }
 }
